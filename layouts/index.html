@@ -1,0 +1,21 @@
+{{ define "main" }}
+
+{{ partial "sections.html" . }}
+
+{{ $pages := where .Site.Pages "Type" "day" }}
+{{ range (first 20 ($pages.GroupByDate "2006-01")) -}}
+    <div class="section">
+      <h1 class="title">{{ .Key }}</h1>
+
+      <ul>
+        {{ range .Pages -}}
+        <li>
+          <a href="{{ .RelPermalink }}">{{ partial "datetitle.html" . }}</a>
+        </li>
+        {{- end }}
+      </ul>
+    </div>
+    {{ end }}
+
+
+{{ end }}

@@ -1,0 +1,96 @@
+{{ $paginator := .Paginator }}
+
+<!-- Number of links either side of the current page. -->
+{{ $adjacent_links := 2 }}
+
+<!-- $max_links = ($adjacent_links * 2) + 1 -->
+{{ $max_links := (add (mul $adjacent_links 2) 1) }}
+
+<!-- $lower_limit = $adjacent_links + 1 -->
+{{ $lower_limit := (add $adjacent_links 1) }}
+
+<!-- $upper_limit = $paginator.TotalPages - $adjacent_links -->
+{{ $upper_limit := (sub $paginator.TotalPages $adjacent_links) }}
+
+{{ if gt $paginator.TotalPages 1 }}
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+  {{ if $paginator.HasPrev }}
+    <a href="{{ $paginator.Prev.URL }}" class="pagination-previous">Previous</a>
+  {{ end }}
+
+  {{ if $paginator.HasNext }}
+    <a href="{{ $paginator.Next.URL }}" class="pagination-next">Next page</a>
+  {{ end }}
+
+  <ul class="pagination-list">
+
+    <!-- Only show first page, if the current page is not the first page and if it is not already shown by the normal logic -->
+    {{ if and (not (le $paginator.PageNumber $lower_limit)) (gt $paginator.TotalPages $max_links) }}
+        <li><a href="{{ $paginator.First.URL }}" class="pagination-link" aria-label="Goto page 1">1</a></li>
+        {{ if not (le $paginator.PageNumber (add $lower_limit 1)) }}
+          <li><span class="pagination-ellipsis">&hellip;</span></li>
+        {{ end }}
+    {{ end }}
+
+    {{ range $paginator.Pagers }}
+
+      {{ $.Scratch.Set "page_number_flag" false }}
+
+        <!-- Complex page numbers. -->
+        {{ if gt $paginator.TotalPages $max_links }}
+
+          <!-- Lower limit pages. -->
+          <!-- If the user is on a page which is in the lower limit.  -->
+          {{ if le $paginator.PageNumber $lower_limit }}
+
+            <!-- If the current loop page is less than max_links. -->
+            {{ if le .PageNumber $max_links }}
+              {{ $.Scratch.Set "page_number_flag" true }}
+            {{ end }}
+
+          <!-- Upper limit pages. -->
+          <!-- If the user is on a page which is in the upper limit. -->
+          {{ else if ge $paginator.PageNumber $upper_limit }}
+
+            <!-- If the current loop page is greater than total pages minus $max_links -->
+            {{ if gt .PageNumber (sub $paginator.TotalPages $max_links) }}
+              {{ $.Scratch.Set "page_number_flag" true }}
+              {{ end }}
+
+          <!-- Middle pages. -->
+          {{ else }}
+
+            <!-- Logic to show only necessary middle pages. -->
+            {{ if and ( ge .PageNumber (sub $paginator.PageNumber $adjacent_links) ) ( le .PageNumber (add $paginator.PageNumber $adjacent_links) ) }}
+              {{ $.Scratch.Set "page_number_flag" true }}
+            {{ end }}
+
+          {{ end }}
+
+          <!-- Simple page numbers. -->
+        {{ else }}
+
+          {{ $.Scratch.Set "page_number_flag" true }}
+
+        {{ end }}
+
+        {{ if eq ($.Scratch.Get "page_number_flag") true }}
+
+          <li><a href="{{ .URL }}" class="pagination-link {{ if eq . $paginator }}is-current{{ end }}" aria-label="Goto page {{ .PageNumber }}">{{ .PageNumber }}</a></li>
+
+        {{ end }}
+
+    {{ end }}
+
+    <!-- Only show last page, if the current page is not the last page and if it is not already shown by the normal logic -->
+    {{ if and (not (ge $paginator.PageNumber $upper_limit)) (gt $paginator.TotalPages $max_links) }}
+      {{ if not (ge $paginator.PageNumber (sub $upper_limit 1)) }}
+        <li><span class="pagination-ellipsis">&hellip;</span></li>
+      {{ end }}
+
+      <li><a href="{{ $paginator.Last.URL }}" class="pagination-link" aria-label="Goto page {{ $paginator.Last.PageNumber }}">{{ $paginator.Last.PageNumber }}</a></li>
+
+    {{ end }}
+  </ul>
+</nav>
+{{ end }}

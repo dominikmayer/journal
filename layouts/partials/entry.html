@@ -1,0 +1,32 @@
+<div class="columns">
+    <div class="column is-one-fifth">
+        {{ partial "entry-meta.html" . }}
+    </div>
+    <div class="column is-three-fifths">
+        <div class="content sensitive-content">
+            {{ if or (in .File.BaseFileName "todo") .Page.Params.todo }}
+                <article class="message is-warning">
+                    <div class="message-header">
+                        <p>To Do</p>
+                    </div>
+                    <div class="message-body">
+                        {{ .Content }}
+                    </div>
+                </article>
+            {{ else }}
+                {{ .Content }}
+            {{ end }}
+
+            {{ if .Scratch.Get "ShownInList" }}
+                {{ $day := printf "%s" (.Parent.Date.Format "2006-01-02") }}
+                {{ range .Params.images }}
+                    <img src="{{ $day }}/{{.}}">
+                {{ end }}
+            {{ else }}
+                {{ range .Params.images }}
+                    <img src="{{.}}">
+                {{ end }}
+            {{end}}
+        </div>
+    </div>
+</div>

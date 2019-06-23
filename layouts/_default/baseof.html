@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+{{ partial "head.html" . }}
+<body class="dm-main has-navbar-fixed-top" onkeydown="getKey(event)">
+    <div class="dm-section" {{ if .IsHome }}style="min-height: 100vh;"{{end}}>
+        {{ partial "nav.html" . }}
+        {{ block "content" . }}
+        <section class="section">
+            <div class="container">
+                {{ block "main" . }}
+                    <div class="columns">
+                        <div class="column is-three-fifths is-offset-one-fifth">
+                            {{ block "inner" . }}
+
+                            {{ end }}
+                        </div>
+                    </div>
+                {{ end }}
+            </div>
+        </section>
+        {{ end }}
+    </div>
+    {{ partialCached "footer.html" . }}
+</body>
+</html>

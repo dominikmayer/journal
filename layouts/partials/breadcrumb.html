@@ -1,0 +1,6 @@
+{{ with .Parent }}
+    {{ if not .IsHome }}
+        {{ partial "breadcrumb.html" . }}
+        <li><a href="{{ .RelPermalink}}">{{ path.Base .CurrentSection.File.Dir }}</a></li>
+    {{end}}
+{{ end }}

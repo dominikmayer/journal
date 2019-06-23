@@ -1,0 +1,39 @@
+<div style="display: flex; flex-wrap: wrap;">
+{{ range (sort .Sections "File.Path") }}
+<div class="card" style="width:20vw; min-width:200px; margin: 5px">
+  <div class="card-image">
+      <a href="{{ .CurrentSection.RelPermalink}}">
+      <figure class="image is-4by3 sensitive" style="display:flex; margin: 0 -1px" >
+          {{ $image := slice }}
+          {{ if .Page.Params.image }}
+              {{ $image = index (.Resources.Match .Page.Params.image) 0 }}
+          {{ else }}
+              {{ $image = index (shuffle (.Resources.ByType "image")) 0 }}
+          {{ end }}
+          {{/* if ne $image "" */}}
+
+          {{ if isset .Page.Params "images" }}
+            {{ $section := .}}
+                {{ range .Page.Params.images }}
+                {{ $image := index ($section.Resources.Match .) 0 }}
+                <div style=" width:50%; margin-top: -75%; margin-left: 1px; margin-right: 1px">
+                    <img src="{{ $image.RelPermalink }}" style="object-fit: cover; position:relative">
+                </div>
+                {{ end }}
+            {{ else }}
+                <a href="{{ .CurrentSection.RelPermalink }}">
+                    <img src="{{ $image.RelPermalink }}" style="object-fit: cover;">
+                </a>
+            {{ end }}
+      </figure>
+
+      </a>
+  </div>
+  <div class="card-content">
+    <div class="content">
+      <a href="{{ .CurrentSection.RelPermalink}}">{{ partial "datetitle.html" . }}</a>
+    </div>
+  </div>
+</div>
+{{ end }}
+</div>

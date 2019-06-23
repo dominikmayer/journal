@@ -1,0 +1,66 @@
+{{ $title := print (partial "datetitle.html" . ) " | " .Site.Title }}
+{{ if .IsHome }}
+  {{ $title = .Site.Title }}
+{{ end }}
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    {{ $bulma := resources.Get "sass/bulma-dm.sass" | toCSS (dict "outputStyle" "compressed") }}
+    {{ $mycss := resources.Get "sass/style.css" }}
+    {{ $wi := resources.Get "css/weather-icons.min.css" }}
+    {{ $css := slice $bulma $wi $mycss | resources.Concat "css/journal.css" | minify }}
+
+    {{ $favicon := "img/favicon.png" | absURL }}
+
+    <title>{{ $title }}</title>
+
+    {{ with .OutputFormats.Get "rss" -}}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+    {{ end -}}
+
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+    <link rel="stylesheet" href="{{ $css.RelPermalink | safeURL }}">
+    <link rel="shortcut icon" type="image/png" href=" {{ $favicon | safeURL }}"/>
+
+    <script src='{{ "js/menu.js" | absURL }}'></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.9.0/js/all.js"></script>
+    <script id="rendered-js">
+
+    function toggleObfuscation() {
+        sensitiveElements = document.querySelectorAll(".sensitive, .sensitive-content.content p, .sensitive-content.content blockquote");
+
+        for (i = 0; i < sensitiveElements.length; i++) {
+          console.log(sensitiveElements[i].style.filter);
+          if (sensitiveElements[i].style.filter == "") {
+              if(sensitiveElements[i].tagName == "FIGURE" || sensitiveElements[i].tagName == "IMG")
+                sensitiveElements[i].style.filter = "blur(15px)";
+            else
+                sensitiveElements[i].style.filter = "blur(7px)";
+          } else {
+            sensitiveElements[i].style.filter = "";
+        }
+
+      };
+    }
+
+    function getKey(event){
+        if (event.key == "h"){
+            toggleObfuscation();
+        }
+    };
+
+        function changeSource() {
+            var entry = document.getElementsByClassName("single-entry")[0];
+            if (typeof entry !== 'undefined') {
+                var imageList = entry.getElementsByClassName("entry-image");
+                for (let item of imageList) {
+                    var srcElements = item.src.split("/");
+                    var toRemove = srcElements[srcElements.length -2] + "/";
+                    var path = item.src.replace(toRemove, "");
+                    item.src = path;
+                }
+            }
+        };
+    </script>
+</head>

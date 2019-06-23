@@ -1,0 +1,4 @@
+{{ $image := index (.Page.Parent.Resources.Match (.Get 0)) 0 }}
+<figure class="sensitive">
+    <img src="{{ $image.RelPermalink }}" class="entry-image">
+</figure>

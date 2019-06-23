@@ -1,0 +1,91 @@
+{{ $dateTime := .PublishDate.Format "2006-01-02" }}
+{{ $timeFormat := .Site.Params.dateFormat | default "15:04" }}
+{{ $hasImages := or (.Page.HasShortcode "image") (.Page.HasShortcode "images")}}
+{{ $longPost := or (or (gt .Page.WordCount 170) (in .File.BaseFileName "todo") $hasImages) }}
+{{ $shortPost := and (lt .Page.WordCount 45) (not (or (in .File.BaseFileName "todo") $hasImages)) }}
+
+{{ if not $shortPost }}
+    <div class="container has-text-centered has-text-grey">
+        <a class="has-text-grey is-size-2" href="{{ .Permalink }}">
+            <time datetime="{{ $dateTime }}">{{ .Date.Format $timeFormat }}</time>
+        </a>
+        {{/*<span class="content is-size-7 has-text-centered has-text-grey">{{ .Date.Format "MST" }}</span>*/}}
+    </div>
+{{ end }}
+{{ if $longPost }}
+    {{ with .Page.Params.weather}}
+        <div class="content is-size-5 has-text-centered has-text-grey">
+            <div>
+                <span class="icon">
+                    <i class="wi wi-forecast-io-{{- .sky }}"></i>
+                </span>
+                <span>{{ with .temperature }}{{ math.Round . }} ° C{{ end }}</span>
+            </div>
+            <div class="content is-size-7 has-text-centered has-text-grey">
+                {{ .summary }}
+            </div>
+        </div>
+    {{ end }}
+
+    {{ with .Page.Params.location}}
+        <div class="content is-size-7 has-text-centered has-text-grey">
+            {{ if .latitude }}
+                <iframe src="http://maps.google.com/maps?q={{ .latitude }},{{ .longitude }}&z=15&output=embed" frameborder="0" style="border:0; margin-top:10px"></iframe>
+                <a href="https://maps.google.com/?q={{ .latitude }},{{ .longitude }}" class="has-text-grey sensitive">{{ .name }}</a>
+            {{ else }}
+                {{ .name }}
+            {{ end }}
+        </div>
+    {{ end }}
+{{ else if $shortPost }}
+    <div class="content is-size-7 has-text-centered has-text-grey">
+        <p>{{ .Date.Format $timeFormat }}
+        {{ with .Page.Params.weather}}
+            ·
+            <span class="icon">
+              <i class="wi wi-forecast-io-{{- .sky }}"></i>
+            </span>
+            {{ with .temperature }}{{ math.Round . }} ° C · {{ end }}{{ with .summary }}{{.}}{{end}}
+        {{ end }}
+        {{ with .Page.Params.location}}
+            {{ if .latitude }}
+                · <a href="https://maps.google.com/?q={{ .latitude }},{{ .longitude }}" class="has-text-grey sensitive">{{ .name }}</a>
+            {{ else }}
+                {{ .name }}
+            {{ end }}
+        {{ end }}
+        </p>
+    </div>
+{{ else }}
+    <div class="content is-size-7 has-text-centered has-text-grey">
+        {{ with .Page.Params.weather}}
+        <p>
+            <span class="icon">
+              <i class="wi wi-forecast-io-{{- .sky }}"></i>
+            </span>
+            {{ with .temperature }}{{ math.Round . }} ° C · {{ end }}{{ with .summary }}{{.}}{{end}}
+        </p>
+        {{ end }}
+        {{ with .Page.Params.location}}
+            {{ if .latitude }}
+                <a href="https://maps.google.com/?q={{ .latitude }},{{ .longitude }}" class="has-text-grey sensitive">{{ .name }}</a>
+            {{ else }}
+                {{ .name }}
+            {{ end }}
+        {{ end }}
+    </div>
+
+{{ end }}
+
+    {{ with .Params.tags }}
+    <div class="tags has-text-centered">
+    {{ range sort . }}
+        {{ $tagPage := $.Site.GetPage "taxonomyTerm" (add "tags/" .) }}
+        <a href="{{ $tagPage.RelPermalink }}" class="tag is-light sensitive">{{ . }}</a>
+    {{ end }}
+    </div>
+    {{ end }}
+
+<div class="has-text-centered">
+    <a href="{{safeURL .Site.Params.editURL -}}{{- .Site.Params.contentPath }}/{{.File.Path}}" class="icon has-text-grey-lighter"><i class="far fa-edit"></i></a>
+</div>

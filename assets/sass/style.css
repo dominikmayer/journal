@@ -1,0 +1,38 @@
+.dm-main {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.dm-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 65vw;
+
+}
+.image-grid div {
+    flex-grow: 1;
+    margin: 2px;
+    height: 25vw;
+    position: relative;
+    overflow: hidden;
+}
+.image-grid img {
+  height: 25vw;
+  margin: 0 2px 2px 0;
+  max-width: 100%;
+  min-width: 100%;
+  vertical-align: bottom;
+  object-fit: cover;
+}
+
+.image-grid::after {
+  content: '';
+  flex-grow: 1e4;
+}

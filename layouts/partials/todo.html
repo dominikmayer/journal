@@ -1,0 +1,42 @@
+{{ $inboxSites := where .Site.Pages ".Params.todo" "eq" true }}
+
+{{ range .Site.RegularPages }}
+    {{ if in .File.BaseFileName "todo" }}
+        {{ $inboxSites = $inboxSites | append . }}
+    {{ end }}
+{{ end }}
+
+{{ $inboxSites := ($inboxSites.ByParam "date").Reverse }}
+
+{{ $todoCount := len $inboxSites }}
+
+{{ if gt $todoCount 0 }}
+    <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-item">
+            To Do
+            <span class="tag is-warning is-rounded" style="margin-left:7px">
+                {{ $todoCount }}
+            </span>
+        </a>
+        <div class="navbar-dropdown">
+            {{ range ($inboxSites.GroupBy "Dir").Reverse }}
+                {{ $firstInboxEntryPerDay := index (last 1 .Pages).Reverse 0}}
+                <a class="navbar-item" href="{{$firstInboxEntryPerDay.CurrentSection.Permalink}}">
+                    {{ partial "datetitle" $firstInboxEntryPerDay }}
+                    <span class="tag is-warning is-rounded" style="margin-left:7px">
+                        {{ len .Pages }}
+                    </span>
+                </a>
+            {{ end }}
+        </div>
+    </div>
+{{ else }}
+    <div class="navbar-item">
+        <span>
+          To Do
+        </span>
+        <span class="tag is-rounded" style="margin-left:7px">
+            0
+        </span>
+    </div>
+{{ end }}

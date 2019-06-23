@@ -1,0 +1,22 @@
+{{ define "main" }}
+
+<h1 class="title is-5">{{ .Title }}</h1>
+
+<div class="field is-grouped is-grouped-multiline">
+    {{ $type := .Type }}
+    {{ range $key, $value := .Data.Terms.ByCount }}
+    {{ $name := .Name }}
+    {{ $count := .Count }}
+    {{ with $.Site.GetPage (printf "/%s/%s" $type $name) }}
+    <div class="control">
+        <div class="tags has-addons">
+            <a class="tag" href="{{ .Permalink }}">{{ $name }}</a>
+            <span class="tag is-dark">{{ $count }}</span>
+        </div>
+    </div>
+    {{ end }}
+    {{ end }}
+
+</div>
+
+{{ end }}

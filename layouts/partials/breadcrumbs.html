@@ -1,0 +1,8 @@
+{{ if not .IsHome }}
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+          {{ partial "breadcrumb.html" . }}
+          <li><a class="has-text-dark">{{ partial "datetitle" . }}</a></li>
+      </ul>
+    </nav>
+{{ end }}

@@ -1,0 +1,13 @@
+<footer class="footer">
+    <div class="content has-text-centered has-text-grey">
+        <p>
+            Made with <a href="http://www.blauerschnee.com">🐨</a>
+        </p>
+
+        {{ range .Site.Menus.socialfooter }}
+        <a href="{{ .URL }}" class="icon is-medium has-text-grey">
+          <i class="fab fa-lg fa-{{ .Pre }}" title="{{ .Name }}"></i>
+        </a>
+        {{ end }}
+    </div>
+</footer>

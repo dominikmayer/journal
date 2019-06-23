@@ -1,0 +1,35 @@
+{{ if eq .Page.Params.type "day" }}
+    {{ $image := slice }}
+    {{ if .Page.Params.image }}
+        {{ $image = index (.Resources.Match .Page.Params.image) 0 }}
+    {{ else }}
+        {{ $image = index (shuffle (.Resources.ByType "image")) 0 }}
+    {{ end }}
+
+    {{/* if ne $image "" */}}
+    {{ if and (isset .Page.Params "images") .Page.Params.images }}
+    <section style="height:70vh; width:100vw; max-height:100%; display: flex; overflow: hidden; margin: 0 -2px;" class="sensitive">
+        {{ range .Page.Params.images }}
+        {{ $image = index ($.Resources.Match .) 0 }}
+        <img src="{{ $image.RelPermalink }}" style="object-fit:cover; max-height:100%; flex-grow:1; flex-shrink:1; min-width: 0; margin: 0 2px">
+        {{end}}
+
+    </section>
+
+        {{/*<section class="hero is-info is-large sensitive" style="{{background:linear-gradient(
+          to bottom,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.6)),url({{ $image.RelPermalink }}),url({{ $image.RelPermalink }}); background-size: 50% auto , contain ;background-position: center; background-position: top left}}">
+          <div class="is-overlay is-clipped" style="height:100%; max-height:100%; flex-grow: 1; flex-shrink: 1; display: flex">
+
+            </div>
+            <div class="hero-body">
+
+            </div>
+          <div class="hero-foot">
+            <div class="container">
+              <h1 class="title">{{ partial "datetitle.html" . }}</h1>
+            </div>
+          </div>
+        </section>*/}}
+    {{ end }}
+
+{{ end }}

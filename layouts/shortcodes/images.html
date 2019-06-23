@@ -1,0 +1,11 @@
+{{ $content := trim .Inner "\n" }}
+{{ $images := split $content "\n" }}
+
+<figure class="sensitive {{ if gt (len $images) 1}}image-grid{{end}}">
+    {{ range $images }}
+        {{ $image := index ($.Page.Parent.Resources.Match .) 0 }}
+        <div>
+            <img src="{{ $image.RelPermalink }}" class="entry-image" title="{{ index (split . ".") 0 }}">
+        </div>
+    {{ end }}
+</figure>

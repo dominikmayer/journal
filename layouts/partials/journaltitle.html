@@ -1,0 +1,15 @@
+{{ $firstYear :=  (index .Site.RegularPages.Reverse 0).Date.Year }}
+{{ $lastYear :=  (index .Site.RegularPages 0).Date.Year }}
+
+<a class="navbar-item" href="{{.Site.Home.Permalink}}">
+    <div>
+        <h1 class="title">Journal</h1>
+        <h2 class="subtitle is-6">
+            {{ if eq $firstYear $lastYear }}
+                {{ $lastYear }}
+            {{ else }}
+                {{ (index .Site.RegularPages.Reverse 0).Date.Year }} – {{ (index .Site.RegularPages 0).Date.Year }}
+            {{ end }}
+        </h2>
+    </div>
+</a>

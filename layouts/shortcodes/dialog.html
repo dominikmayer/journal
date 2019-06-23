@@ -1,0 +1,16 @@
+<blockquote>
+    {{ range split .Inner "\n" }}
+        {{ if ne . "" }}
+            {{ $parts := split . ":" }}
+            {{ $speaker := index $parts 0 }}
+            {{ $description := split $speaker "(" }}
+            {{ if index $description 1 }}
+                <b>{{ index $description 0 }}</b> <i>({{ index $description 1 }}:</i>
+            {{else }}
+                <b>{{ $speaker }}:</b>
+            {{ end }}
+            {{ strings.TrimLeft (add $speaker ":") . }}
+            <br>
+        {{end}}
+    {{ end }}
+</blockquote>

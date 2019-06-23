@@ -1,0 +1,4 @@
+{{ $dateTime := $.Page.Lastmod.Format "2006-01-02" }}
+{{ $dateFormat := $.Page.Site.Params.dateFormat | default "January 2, 2006" }}
+
+<time datetime="{{ $dateTime }}">{{ $.Page.Lastmod.Format $dateFormat }}</time>

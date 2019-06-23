@@ -1,0 +1,39 @@
+{{ define "content" }}
+
+
+{{/* if not .IsHome }}
+    <h1 class="title">{{ partial "datetitle.html" . }}</h1>
+{{ end */}}
+
+{{ partial "hero" . }}
+
+<section class="section">
+    <h1 class="title" >{{ partial "datetitle.html" . }}</h1>
+    <div class="container">
+
+        {{ with .Content }}
+            <div class="content">
+                {{ . }}
+            </div>
+        {{ end }}
+
+        {{ partial "sections" . }}
+
+        {{ $pages := .Pages }}
+        {{ $date := .Page.Date }}
+        {{ range $index, $value := (.Paginate $pages).Pages.ByDate.GroupByDate "2006-01-02" "asc" }}
+            {{ if eq $index 1 }}
+                <hr>
+            {{ end }}
+            {{ range .Pages }}
+                <div class="section">
+                    {{ partial "entry" . }}
+                </div>
+            {{ end }}
+        {{end}}
+        {{ partial "pagination.html" . }}
+
+    </div>
+</section>
+
+{{ end }}

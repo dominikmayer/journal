@@ -1,0 +1,48 @@
+<nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand has-text-centered">
+
+        {{ partialCached "journaltitle" . }}
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div class="navbar-menu" id="navMenu">
+        <div class="navbar-start">
+            {{ partialCached "current" . }}
+
+            {{ partialCached "todo" . }}
+            <div class="navbar-item">
+                {{ partial "breadcrumbs" . }}
+            </div>
+
+            {{ $currentPage := . }}
+            {{/* partial "breadcrumb.html" . */}}
+            {{ range .Site.Menus.main }}
+                {{ if .HasChildren }}
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a href="{{ .URL }}" class="navbar-item">{{ .Name }}</a>
+                        <div class="navbar-dropdown">
+                            {{ range .Children }}
+                                {{ .Pre }}
+                                <a class="navbar-item {{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}is-active{{ end -}}" href="{{ .URL }}">{{ .Name }}</a>
+                            {{ end }}
+                        </div>
+                    </div>
+                {{ else }}
+                    <a class="navbar-item {{ if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}is-active{{ end -}}" href="{{ .URL }}">{{ .Name }}</a>
+                {{ end }}
+            {{ end }}
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <a href="javascript:toggleObfuscation()" class="icon has-text-grey-lighter" id="eye"><i class="fas fa-eye-slash"></i></a>
+            </div>
+        </div>
+
+    </div>
+</nav>
