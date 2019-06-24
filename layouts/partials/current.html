@@ -1,5 +1,5 @@
 <div class="navbar-item has-dropdown is-hoverable">
-    {{ range $index, $element := ((first 30 .Site.RegularPages.ByDate.Reverse).GroupBy "Dir").Reverse }}
+    {{ range $index, $element := ((first 100 .Site.RegularPages.ByDate.Reverse).GroupBy "Dir").Reverse }}
         {{ $firstEntryPerDay := index (last 1 .Pages) 0}}
         <a class="navbar-item" href="{{$firstEntryPerDay.CurrentSection.Permalink}}">
             {{ partial "datetitle.html" $firstEntryPerDay }}
