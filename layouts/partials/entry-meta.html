@@ -30,7 +30,7 @@
     {{ with .Page.Params.location}}
         <div class="content is-size-7 has-text-centered has-text-grey">
             {{ if .latitude }}
-                <iframe src="http://maps.google.com/maps?q={{ .latitude }},{{ .longitude }}&z=15&output=embed" frameborder="0" style="border:0; margin-top:10px"></iframe>
+                <iframe class="sensitive" src="http://maps.google.com/maps?q={{ .latitude }},{{ .longitude }}&z=15&output=embed" frameborder="0" style="border:0; margin-top:10px"></iframe>
                 <a href="https://maps.google.com/?q={{ .latitude }},{{ .longitude }}" class="has-text-grey sensitive">{{ .name }}</a>
             {{ else }}
                 {{ .name }}
