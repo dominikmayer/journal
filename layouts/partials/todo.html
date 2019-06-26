@@ -22,10 +22,7 @@
             {{ range ($inboxSites.GroupBy "Dir").Reverse }}
                 {{ $firstInboxEntryPerDay := index (last 1 .Pages).Reverse 0}}
                 <a class="navbar-item" href="{{$firstInboxEntryPerDay.CurrentSection.Permalink}}">
-                    {{ partial "datetitle" $firstInboxEntryPerDay }}
-                    <span class="tag is-warning is-rounded" style="margin-left:7px">
-                        {{ len .Pages }}
-                    </span>
+                    {{ partial "datetitle" $firstInboxEntryPerDay.Parent }}
                 </a>
             {{ end }}
         </div>

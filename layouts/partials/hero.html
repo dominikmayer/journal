@@ -6,7 +6,6 @@
         {{ $image = index (shuffle (.Resources.ByType "image")) 0 }}
     {{ end }}
 
-    {{/* if ne $image "" */}}
     {{ if and (isset .Page.Params "images") .Page.Params.images }}
     <section style="height:70vh; width:100vw; max-height:100%; display: flex; overflow: hidden; margin: 0 -2px;" class="sensitive">
         {{ range .Page.Params.images }}
