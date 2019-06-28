@@ -3,9 +3,10 @@
 
 <figure class="sensitive {{ if gt (len $images) 1}}image-grid{{end}}">
     {{ range $images }}
-        {{ $image := index ($.Page.Parent.Resources.Match (trim . "/")) 0 }}
+        {{ $imageString := trim . "/" }}
+        {{ $image := index ($.Page.Parent.Resources.Match $imageString) 0 }}
         <div>
-            <img src="{{ $image.RelPermalink }}" class="entry-image" title="{{ index (split . ".") 0 }}">
+            <img src="{{ $image.RelPermalink }}" class="entry-image" title="{{ index (split $imageString ".") 0 }}">
         </div>
     {{ end }}
 </figure>
