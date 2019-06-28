@@ -1,4 +1,5 @@
-<blockquote>
+<article class="message is-dark sensitive">
+  <div class="message-body">
     {{ range split .Inner "\n" }}
         {{ if ne . "" }}
             {{ $parts := split . ":" }}
@@ -13,4 +14,5 @@
             <br>
         {{end}}
     {{ end }}
-</blockquote>
+</div>
+</article>
