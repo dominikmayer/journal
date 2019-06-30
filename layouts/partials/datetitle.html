@@ -19,7 +19,8 @@
         {{ end }}
     {{ end }}
 
-    {{ if ne (path.Base .File.Dir) (.Date.Format "2006-01-02") }}
+    {{ $folderDate := substr (path.Base .File.Dir) 0 10 }}
+    {{ if ne $folderDate (.Date.Format "2006-01-02") }}
         {{ $dateString := split (path.Base .File.Dir) "-"}}
         {{ with index $dateString 2 }}
             {{ index $dateString 2 -}}.
