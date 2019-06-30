@@ -19,18 +19,22 @@
         {{ end }}
     {{ end }}
 
-    {{ $folderDate := substr (path.Base .File.Dir) 0 10 }}
-    {{ if ne $folderDate (.Date.Format "2006-01-02") }}
-        {{ $dateString := split (path.Base .File.Dir) "-"}}
-        {{ with index $dateString 2 }}
-            {{ index $dateString 2 -}}.
-        {{ end }}
-        {{ index $.Site.Data.monate (strings.TrimLeft "0" (printf "%s" (index $dateString 1))) }} {{index $dateString 0}}
+    {{ if eq .Kind "taxonomy" }}
+        {{- with .Title }}<span class="sensitive">{{.}}</span>{{end}}
     {{ else }}
-        {{ index $.Site.Data.wochentageShort (printf "%d" .Date.Weekday) }}, {{ .Date.Day -}}. {{ index $.Site.Data.monate (printf "%d" .Date.Month) }} {{.Date.Year -}}
-    {{ end }}
+        {{ $folderDate := substr (path.Base .File.Dir) 0 10 }}
+        {{ if ne $folderDate (.Date.Format "2006-01-02") }}
+            {{ $dateString := split (path.Base .File.Dir) "-"}}
+            {{ with index $dateString 2 }}
+                {{ index $dateString 2 -}}.
+            {{ end }}
+            {{ index $.Site.Data.monate (strings.TrimLeft "0" (printf "%s" (index $dateString 1))) }} {{index $dateString 0}}
+        {{ else }}
+            {{ index $.Site.Data.wochentageShort (printf "%d" .Date.Weekday) }}, {{ .Date.Day -}}. {{ index $.Site.Data.monate (printf "%d" .Date.Month) }} {{.Date.Year -}}
+        {{ end }}
 
-    {{- with .Title }}:&nbsp;<span class="sensitive">{{.}}</span>{{end}}
+        {{- with .Title }}:&nbsp;<span class="sensitive">{{.}}</span>{{end}}
+    {{ end }}
     {{/*index $dateString 1}}
     {{ index $dateString 2 -}}. {{ index $.Site.Data.monate (printf "%d" (index $dateString 1)) }} {{index $dateString 0}}{{ with .Title }}: {{.}}{{end*/}}
     {{ with $todoPages }}<span class="tag is-warning is-rounded" style="margin-left:5px">{{len .}}</span>{{end}}

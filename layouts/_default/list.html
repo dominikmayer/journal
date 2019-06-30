@@ -21,7 +21,11 @@
 
         {{ $pages := .Pages }}
         {{ $date := .Page.Date }}
-        {{ range $index, $value := (.Paginate $pages).Pages.ByDate.GroupByDate "2006-01-02" "asc" }}
+        {{ $order := "asc" }}
+        {{ if eq .Kind "taxonomy" }}
+            {{ $order = "dsc" }}
+        {{ end }}
+        {{ range $index, $value := (.Paginate $pages).Pages.ByDate.GroupByDate "2006-01-02" $order }}
             {{ if eq $index 1 }}
                 <hr>
             {{ end }}
