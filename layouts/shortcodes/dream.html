@@ -1,0 +1,12 @@
+<article class="message is-primary sensitive">
+    <div class="message-header">
+        <p>{{ T "dream" }}</p>
+    </div>
+    <div class="message-body">
+        {{ range split (trim .Inner "\n") "\n" }}
+            {{ if . }}
+                <p><i>{{. | markdownify }}</i></p>
+            {{ end }}
+        {{ end }}
+    </div>
+</article>
