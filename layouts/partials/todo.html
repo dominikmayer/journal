@@ -1,8 +1,11 @@
 {{ $inboxSites := where .Site.Pages ".Params.todo" "eq" true }}
 
 {{ range .Site.RegularPages }}
-    {{ if in .File.BaseFileName "todo" }}
-        {{ $inboxSites = $inboxSites | append . }}
+    {{ $page := . }}
+    {{ with .File }}
+        {{ if in .BaseFileName "todo" }}
+            {{ $inboxSites = $inboxSites | append $page }}
+        {{ end }}
     {{ end }}
 {{ end }}
 

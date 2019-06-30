@@ -12,8 +12,10 @@
 {{else}}
     {{ $todoPages := slice }}
     {{ range .Pages }}
-        {{ if in .File.BaseFileName "todo" }}
-            {{ $todoPages = $todoPages | append . }}
+        {{ with .File }}
+            {{ if in .BaseFileName "todo" }}
+                {{ $todoPages = $todoPages | append . }}
+            {{ end }}
         {{ end }}
     {{ end }}
 
