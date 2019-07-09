@@ -3,7 +3,7 @@
         {{ partial "entry-meta.html" . }}
     </div>
     <div class="column is-three-fifths">
-        <div class="content sensitive-content journalize" data-url="{{ strings.TrimRight ".html" .Page.Parent.RelPermalink }}">
+        <div class="content sensitive-content journalize" data-url="{{ strings.TrimSuffix ".html" .Page.Parent.RelPermalink }}">
             {{ if or (in .File.BaseFileName "todo") .Page.Params.todo }}
                 <article class="message is-warning">
                     <div class="message-header">

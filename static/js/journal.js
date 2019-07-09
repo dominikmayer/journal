@@ -8,7 +8,7 @@ window.addEventListener('load', function() {
 
     function styleContent() {
         var text = this.innerHTML;
-        // console.log(text);
+        console.log(text);
         text = cleanContent(text);
         text = styleDream(text);
         text = styleShortcodeImages(text);
@@ -65,7 +65,7 @@ window.addEventListener('load', function() {
         text = text.replace(/(?:(?:<p>)?(?:\/.*\.(?:jpeg|jpg|gif|png|heic))(?:<\/p>|<br>)\n?)+/gi, createFigure);
 
         // Adding the figure environment in iA Writer
-        text = text.replace(/(?:<figure>.*?<\/figure>\n+)+/gis, createFigure);
+        text = text.replace(/(?:<figure>.*?<\/figure>\n*)+/gis, createFigure);
 
         // Adding the images
         text = text.replace(/(?:<p>)?\/((.*)\.(jpeg|jpg|gif|png|heic))(?:<\/p>|<br>)/gi, '<div><img src="' + encodeURI(url) + '/$1" class="entry-image" title="$2"></div>');
