@@ -1,4 +1,4 @@
-window.addEventListener('load', function() {
+window.addEventListener('DOMContentLoaded', function() {
     var containers = document.getElementsByClassName("journalize");
     for (container of containers) {
         container.addEventListener('ia-writer-change', styleContent);
@@ -68,7 +68,7 @@ window.addEventListener('load', function() {
         text = text.replace(/(?:<figure>.*?<\/figure>\n*)+/gis, createFigure);
 
         // Adding the images
-        text = text.replace(/(?:<p>)?\/((.*)\.(jpeg|jpg|gif|png|heic))(?:<\/p>|<br>)/gi, '<div><img src="' + encodeURI(url) + '/$1" class="entry-image" title="$2"></div>');
+        text = text.replace(/(?:<p>)?\/((.*)\.(jpeg|jpg|gif|png|heic))(?:<\/p>|<br>)/gi, '<div><img src="' + url + '/$1" class="entry-image" title="$2"></div>');
         return text;
     };
 
