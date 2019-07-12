@@ -19,8 +19,17 @@ window.addEventListener('DOMContentLoaded', function() {
     };
 
     function styleDream(input) {
-        var text = input.replace(/<p>{{&lt; dream &gt;}}<\/p>/g, '<article class="message is-primary sensitive"><div class="message-body">');
-        text = text.replace(/<p>{{&lt;\/ dream &gt;}}<\/p>/g, '</div></article>');
+        var dreamTitle = "Dream";
+        if (navigator.language == "de-DE") {
+            dreamTitle = "Traum";
+        }
+
+        var dreamHtml = '<article class="message is-primary sensitive"><div class="message-header"><p>' + dreamTitle + '</p></div><div class="message-body">$1</div></article>'
+
+        var text = input.replace(/^<p>{{&lt; dream &gt;}}<\/p>(.*?)<p>{{&lt;\/ dream &gt;}}<\/p>$/gms, dreamHtml);
+
+        text = text.replace(/<p>§§§<(?:\/p|br)>(.*?)(?:<p>)?§§§<\/p>/gms, dreamHtml);
+
         return text;
     };
 
@@ -82,7 +91,10 @@ window.addEventListener('DOMContentLoaded', function() {
     };
 
     function removeComments(input) {
-        return input.replace(/{{&lt; comment &gt;}}.*?{{&lt;\/ comment &gt;}}/gs, '');
+        var text = input.replace(/{{&lt; comment &gt;}}.*?{{&lt;\/ comment &gt;}}/gs, '');
+        text = text.replace(/^<p>\/\/\/<(?:\/p|br)>.*$/gms, '');
+
+        return text;
     };
 
     function cleanContent(input) {
