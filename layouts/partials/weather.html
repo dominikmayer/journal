@@ -1,0 +1,22 @@
+{{ $entryLength := .Scratch.Get "entryLength" }}
+
+{{ with .Page.Params.weather}}
+    {{ if eq $entryLength "long" }}
+        <div class="content is-size-5 has-text-centered has-text-grey">
+            <div>
+                <span class="icon">
+                    <i class="wi wi-forecast-io-{{- .sky }}"></i>
+                </span>
+                <span>{{ with .temperature }}{{ math.Round . }} ° C{{ end }}</span>
+            </div>
+            <div class="content is-size-7 has-text-centered has-text-grey">
+                {{ .summary }}
+            </div>
+        </div>
+    {{ else }}
+        <span class="icon">
+          <i class="wi wi-forecast-io-{{- .sky }}"></i>
+        </span>
+        {{ with .temperature }}{{ math.Round . }} ° C · {{ end }}{{ with .summary }}{{.}}{{end}}
+    {{ end }}
+{{ end }}

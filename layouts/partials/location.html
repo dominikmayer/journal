@@ -1,0 +1,13 @@
+{{ $entryLength := .Scratch.Get "entryLength" }}
+
+{{ with .Page.Params.location}}
+    {{ if .latitude }}
+        {{ if eq $entryLength "long" }}
+            <iframe class="sensitive" src="http://maps.google.com/maps?q={{ .latitude }},{{ .longitude }}&z=15&output=embed" frameborder="0" style="border:0; margin-top:10px"></iframe>
+        {{ end }}
+        <a href="https://maps.google.com/?q={{ .latitude }},{{ .longitude }}" class="has-text-grey sensitive">{{ .name }}</a>
+    {{ else }}
+        {{ .name }}
+    {{ end }}
+{{ end }}
+<a href="{{safeURL .Site.Params.editURL -}}{{- .Site.Params.contentPath }}/{{.File.Path}}" class="icon has-text-grey-lighter">&nbsp;·&nbsp;Edit</a>
