@@ -1,10 +1,16 @@
-window.addEventListener('DOMContentLoaded', function() {
-    var containers = document.getElementsByClassName("journalize");
-    for (container of containers) {
-        container.addEventListener('ia-writer-change', styleContent);
-        container.dispatchEvent(new Event('ia-writer-change'));
+// DOMContentLoaded modifies DOM before everything is loaded ⇒ Transformations very fast in Hugo
+window.addEventListener('DOMContentLoaded', addListeners);
+
+// load is still needed as DOMContentLoaded fires before iA Writer has done the replacements
+window.addEventListener('load', addListeners);
+
+    function addListeners() {
+        var containers = document.getElementsByClassName("journalize");
+        for (container of containers) {
+            container.addEventListener('ia-writer-change', styleContent);
+            container.dispatchEvent(new Event('ia-writer-change'));
+        }
     }
-});
 
     function styleContent() {
         var text = this.innerHTML;
@@ -34,9 +40,7 @@ window.addEventListener('DOMContentLoaded', function() {
     };
 
     function styleShortcodeImages(input) {
-        var text = input.replace(/{{&lt; image ["“]/g, '<img src="');
-        text = text.replace(/["”] &gt;}}/g, '">');
-
+        var text = input;
         text = text.replace(/<p>{{&lt; images &gt;}}<\/p>/g, '');
         text = text.replace(/<p>{{&lt;\/ images &gt;}}<\/p>/g, '');
 
@@ -44,7 +48,7 @@ window.addEventListener('DOMContentLoaded', function() {
     };
 
     function styleDialogs(input) {
-        var text = input.replace(/(?:(?:<p>\..*?<\/p>\n+)+|<p>{{&lt; dialog &gt;}}<\/p>.*<p>{{&lt;\/ dialog &gt;}}<\/p>)/gs, createDialog)
+        var text = input.replace(/(?:(?:<p>\..*?<\/p>(?:\n+|$))+|<p>{{&lt; dialog &gt;}}<\/p>.*<p>{{&lt;\/ dialog &gt;}}<\/p>)/gs, createDialog)
 
         return text;
     };
