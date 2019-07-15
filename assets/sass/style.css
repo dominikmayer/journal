@@ -23,7 +23,7 @@
     position: relative;
     overflow: hidden;
 }
-.image-grid img {
+.image-grid img, .image-grid video {
   height: 25vw;
   margin: 0 2px 2px 0;
   max-width: 100%;

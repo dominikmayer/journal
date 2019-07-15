@@ -20,7 +20,7 @@ window.addEventListener('load', addListeners);
         text = styleShortcodeImages(text);
         text = removeComments(text);
         text = styleDialogs(text);
-        text = createImages(text, this.dataset.url);
+        text = createMedia(text, this.dataset.url);
         this.innerHTML = text;
     };
 
@@ -57,7 +57,7 @@ window.addEventListener('load', addListeners);
         var text = match.replace(/<p>{{&lt;\/? dialog &gt;}}<\/p>/g, '');
         text = text.replace(/(?:<p>)?\.?(\w.*?)\s?(\(.*\))?:(.*?)(?:<\/p>|<br>)/g, createDialogLine);
 
-        return '<article class="message is-dark sensitive"><div class="message-body">' + text  + '</div></article>';
+        return '<article class="message is-dark sensitive"><div class="message-body">' + text  + '</div></article>\n';
     };
 
     function createDialogLine(match, speaker, comment, text) {
@@ -71,17 +71,28 @@ window.addEventListener('load', addListeners);
         return output;
     };
 
-    function createImages(input, url) {
+    function createMedia(input, url) {
         var text = input;
 
+        let photoExtensions = 'jpeg|jpg|gif|png|heic';
+        let videoExtensions = 'mov|mp4';
+
         // Adding the figure environment in Hugo
-        text = text.replace(/(?:(?:<p>)?(?:\/.*\.(?:jpeg|jpg|gif|png|heic))(?:<\/p>|<br>)\n?)+/gi, createFigure);
+        let figureRegex = new RegExp('(?:(?:<p>)?(?:\/.*\.(?:' + photoExtensions + '|' + videoExtensions + '))(?:<\/p>|<br>)\n?)+',"gi");
+        text = text.replace(figureRegex, createFigure);
 
         // Adding the figure environment in iA Writer
         text = text.replace(/(?:<figure>.*?<\/figure>\n*)+/gis, createFigure);
 
         // Adding the images
-        text = text.replace(/(?:<p>)?\/((.*)\.(jpeg|jpg|gif|png|heic))(?:<\/p>|<br>)/gi, '<div><img src="' + url + '/$1" class="entry-image" title="$2"></div>');
+        let photoRegex = new RegExp('(?:<p>)?\/((.*)\.(' + photoExtensions + '))(?:<\/p>|<br>)', 'gi')
+        text = text.replace(photoRegex, '<div><img src="' + url + '/$1" class="entry-image" title="$2"></div>');
+
+        // Adding the videos
+        let videoRegex = new RegExp('(?:<p>)?\/((.*)\.(' + videoExtensions + '))(?:<\/p>|<br>)', 'gi')
+        text = text.replace(videoRegex, '<video controls><source src="' + url + '/$1" type="video/mp4">Your browser does not support the video tag.</video>');
+        //text = text.replace(videoRegex, '<div><img src="' + url + '/$1" class="entry-image" title="$2"></div>');
+
         return text;
     };
 
