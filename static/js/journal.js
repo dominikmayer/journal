@@ -1,14 +1,17 @@
-// DOMContentLoaded modifies DOM before everything is loaded ⇒ Transformations very fast in Hugo
-window.addEventListener('DOMContentLoaded', addListeners);
-
-// load is still needed as DOMContentLoaded fires before iA Writer has done the replacements
-window.addEventListener('load', addListeners);
+if (env == "iA") {
+    window.addEventListener('load', addListeners);
+} else {
+    window.addEventListener('DOMContentLoaded', addListeners);
+}
 
     function addListeners() {
         var containers = document.getElementsByClassName("journalize");
         for (container of containers) {
             container.addEventListener('ia-writer-change', styleContent);
             container.dispatchEvent(new Event('ia-writer-change'));
+        }
+        if (env != "iA") {
+            addZoom();
         }
     }
 
@@ -22,6 +25,10 @@ window.addEventListener('load', addListeners);
         text = styleDialogs(text);
         text = createMedia(text, this.dataset.url);
         this.innerHTML = text;
+
+        if (env == "iA") {
+            addZoom();
+        }
     };
 
     function styleDream(input) {
@@ -90,7 +97,7 @@ window.addEventListener('load', addListeners);
 
         // Adding the videos
         let videoRegex = new RegExp('(?:<p>)?\/((.*)\.(' + videoExtensions + '))(?:<\/p>|<br>)', 'gi')
-        text = text.replace(videoRegex, '<video controls><source src="' + url + '/$1" type="video/mp4">Your browser does not support the video tag.</video>');
+        text = text.replace(videoRegex, '<div><video controls title="$2"><source src="' + url + '/$1" type="video/mp4">Your browser does not support the video tag.</video></div>');
         //text = text.replace(videoRegex, '<div><img src="' + url + '/$1" class="entry-image" title="$2"></div>');
 
         return text;
@@ -120,4 +127,20 @@ window.addEventListener('load', addListeners);
     const countImages = (str) => {
         const re = /(jpeg|jpg|gif|png|heic)/gi
         return ((str || '').match(re) || []).length
+    };
+
+    function addZoom() {
+        console.log("initiate zoom");
+        const zoom = mediumZoom('img');
+
+        let mainNav = document.getElementById("main-nav");
+
+        if (mainNav) {
+            zoom.on('closed', event => {
+                mainNav.style.display = "flex";
+            });
+            zoom.on('open', event => {
+                mainNav.style.display = "none";
+            });
+        }
     };

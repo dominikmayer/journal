@@ -24,10 +24,10 @@
     <link rel="shortcut icon" type="image/png" href=" {{ $favicon | safeURL }}"/>
 
     <script src='{{ "js/menu.js" | absURL }}'></script>
-    <script src='{{ "js/journal.js" | absURL }}'></script>
     <script src='{{ "js/medium-zoom.min.js" | absURL }}'></script>
     <script defer src="https://use.fontawesome.com/releases/v5.9.0/js/all.js"></script>
     <script id="rendered-js">
+        var env = "hugo";
 
     function toggleObfuscation() {
         sensitiveElements = document.querySelectorAll(".sensitive, .sensitive-content.content p, .sensitive-content.content blockquote");
@@ -64,18 +64,7 @@
                 }
             }
         };
-
-    window.onload = function(){
-        const zoom = mediumZoom('.entry-image');
-
-        zoom.on('closed', event => {
-            document.getElementById("main-nav").style.display = "flex";
-        });
-
-        zoom.on('open', event => {
-            document.getElementById("main-nav").style.display = "none";
-        });
-
-    };
     </script>
+    <script src='{{ "js/journal.js" | absURL }}'></script>
+    
 </head>
