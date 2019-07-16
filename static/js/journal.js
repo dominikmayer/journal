@@ -130,8 +130,9 @@ if (env == "iA") {
     };
 
     function addZoom() {
-        console.log("initiate zoom");
-        const zoom = mediumZoom('img');
+        const zoom = mediumZoom('img', {
+            background: "#000000",
+        });
 
         let mainNav = document.getElementById("main-nav");
 
