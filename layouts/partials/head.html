@@ -6,7 +6,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    {{ $bulma := resources.Get "sass/bulma-dm.sass" | toCSS (dict "outputStyle" "compressed") }}
+    {{ $bulma := resources.Get "sass/bulma-journal.sass" | toCSS (dict "outputStyle" "compressed") }}
     {{ $mycss := resources.Get "sass/style.css" }}
     {{ $wi := resources.Get "css/weather-icons.min.css" }}
     {{ $css := slice $bulma $wi $mycss | resources.Concat "css/journal.css" | minify }}
@@ -66,5 +66,5 @@
         };
     </script>
     <script src='{{ "js/journal.js" | absURL }}'></script>
-    
+
 </head>
