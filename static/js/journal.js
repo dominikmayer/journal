@@ -17,10 +17,11 @@ if (env == "iA") {
 
     function styleContent() {
         var text = this.innerHTML;
-        console.log(text);
+        // console.log(text);
         text = cleanContent(text);
         text = styleDream(text);
         text = styleShortcodeImages(text);
+        text = createTodos(text);
         text = removeComments(text);
         text = styleDialogs(text);
         text = createMedia(text, this.dataset.url);
@@ -112,7 +113,13 @@ if (env == "iA") {
         return '<figure class="sensitive' + gridClass + '">' +  match + '</figure>';
     };
 
+    function createTodos(input) {
+        return input.replace(/<p>\+\+<(?:\/p|br)>\n(.*?)(?=<p>\/\/\/<\/p>|$)/gs, '<article class="message is-warning">\n<div class="message-header">\n<p>To Do</p>\n</div>\n<div class="message-body">\n$1\n</div>\n</article>\n\n');
+    };
+
     function removeComments(input) {
+        console.log("content");
+        console.log(input);
         var text = input.replace(/{{&lt; comment &gt;}}.*?{{&lt;\/ comment &gt;}}/gs, '');
         text = text.replace(/^<p>\/\/\/<(?:\/p|br)>.*$/gms, '');
 
