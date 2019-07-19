@@ -3,19 +3,13 @@
 
 name = "Journal"
 license = "MIT"
-licenselink = "https://github.com/yourname/yourtheme/blob/master/LICENSE"
+licenselink = "https://github.com/dominikmayer/journal/blob/master/LICENSE"
 description = ""
-homepage = "http://example.com/"
-tags = []
+homepage = "https://github.com/dominikmayer/journal/"
+tags = ["journal"]
 features = []
 min_version = "0.41"
 
 [author]
-  name = ""
-  homepage = ""
-
-# If porting an existing theme
-[original]
-  name = ""
-  homepage = ""
-  repo = ""
+  name = "Dominik Mayer"
+  homepage = "https://www.dominikmayer.com"
