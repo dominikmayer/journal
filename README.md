@@ -96,6 +96,16 @@ Saw a flying duck today. Tried to follow. Didn't work.
 
 Entry files can be written in Markdown. Additions:
 
+### Dialogs
+
+Add a dot in front of the name of a speaker. Additional information can be added in parenthesis:
+
+```
+.Doctor: I'm sorry but you suffer from a terminal illness and have only 10 to live.
+.Patient (concerned): What do you mean, 10? 10 what? Months? Weeks?!
+.Doctor: Nine.
+```
+
 ### Dreams
 
 To separate dreams from real events, put them between cloudy separators:
