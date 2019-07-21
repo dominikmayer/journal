@@ -4,6 +4,8 @@ if (env == "iA") {
     window.addEventListener('DOMContentLoaded', addListeners);
 }
 
+var meInDialogs = ["Ich", "I", "Me"];
+
     function addListeners() {
         var containers = document.getElementsByClassName("journalize");
         for (container of containers) {
@@ -63,19 +65,36 @@ if (env == "iA") {
 
     function createDialog(match) {
         var text = match.replace(/<p>{{&lt;\/? dialog &gt;}}<\/p>/g, '');
-        text = text.replace(/(?:<p>)?\.?(\w.*?)\s?(\(.*\))?:(.*?)(?:<\/p>|<br>)/g, createDialogLine);
+        var speakers = [];
 
-        return '<article class="message is-dark sensitive"><div class="message-body">' + text  + '</div></article>\n';
+        text = text.replace(/(?:<p>)?\.?(\w.*?)\s?(\(.*\))?:(.*?)(?:<\/p>|<br>)/g, function(match, speaker, comment, text) {
+            var newSpeaker = false;
+            if (!speakers.includes(speaker)) {
+                newSpeaker = true;
+                speakers.push(speaker);
+            }
+            return createDialogLine(match, speaker, comment, text, speakers, newSpeaker);
+        });
+        console.log(speakers);
+
+        return '<ul class="journal-dialog">' + text  + '</ul>\n';
     };
 
-    function createDialogLine(match, speaker, comment, text) {
-        var output = "<b>" + speaker;
-        if (comment) {
-            output = output + "</b>" + " <i>" + comment + ":</i>"
-        } else {
-            output = output + ":</b>"
+    function createDialogLine(match, speaker, comment, text, speakers, newSpeaker) {
+        var output = "";
+
+        var whoseDialog = "their-dialog";
+        if (meInDialogs.includes(speaker) || (speaker != speakers[0] && !meInDialogs.includes(speakers[0]))) {
+            whoseDialog = "my-dialog";
         }
-        output = output + text + "</br>";
+
+        if (comment) {
+            output = "<b>" + speaker + "</b>" + " <i>" + comment + "</i><br>"
+        } else if (newSpeaker) {
+            output = "<b>" + speaker + "</b><br>"
+        }
+        output = '<li class="' + whoseDialog + '">' + output + text + "</li>";
+
         return output;
     };
 
@@ -118,8 +137,6 @@ if (env == "iA") {
     };
 
     function removeComments(input) {
-        console.log("content");
-        console.log(input);
         var text = input.replace(/{{&lt; comment &gt;}}.*?{{&lt;\/ comment &gt;}}/gs, '');
         text = text.replace(/^<p>\/\/\/<(?:\/p|br)>.*$/gms, '');
 

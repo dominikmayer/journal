@@ -9,7 +9,8 @@
     {{ $bulma := resources.Get "sass/bulma-journal.sass" | toCSS (dict "outputStyle" "compressed") }}
     {{ $mycss := resources.Get "sass/style.css" }}
     {{ $wi := resources.Get "css/weather-icons.min.css" }}
-    {{ $css := slice $bulma $wi $mycss | resources.Concat "css/journal.css" | minify }}
+    {{ $jcss := resources.Get "sass/journal.css" }}
+    {{ $css := slice $bulma $wi $mycss $jcss | resources.Concat "css/journal.css" | minify }}
 
     {{ $favicon := "img/favicon.png" | absURL }}
 
