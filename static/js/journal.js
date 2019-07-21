@@ -20,11 +20,11 @@ var meInDialogs = ["Ich", "I", "Me"];
     function styleContent() {
         var text = this.innerHTML;
         // console.log(text);
+        text = removeComments(text);
         text = cleanContent(text);
         text = styleDream(text);
         text = styleShortcodeImages(text);
         text = createTodos(text);
-        text = removeComments(text);
         text = styleDialogs(text);
         text = createMedia(text, this.dataset.url);
         this.innerHTML = text;
