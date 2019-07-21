@@ -80,17 +80,21 @@ var meInDialogs = ["Ich", "I", "Me"];
         return '<ul class="journal-dialog">' + text  + '</ul>\n';
     };
 
+    // Rudimentary support for multiple person conversation only works well if I am speaking first
     function createDialogLine(match, speaker, comment, text, speakers, newSpeaker) {
         var output = "";
-
         var whoseDialog = "their-dialog";
-        if (meInDialogs.includes(speaker) || (speaker != speakers[0] && !meInDialogs.includes(speakers[0]))) {
+
+        let iAmSpeaking = meInDialogs.includes(speaker);
+        let iAmPartOfTheConversation = meInDialogs.some(v => speakers.includes(v));
+
+        if (iAmSpeaking || !iAmPartOfTheConversation && speaker == speakers[1]) {
             whoseDialog = "my-dialog";
         }
 
         if (comment) {
             output = "<b>" + speaker + "</b>" + " <i>" + comment + "</i><br>"
-        } else if (newSpeaker) {
+        } else if (newSpeaker || speakers.length > 2) {
             output = "<b>" + speaker + "</b><br>"
         }
         output = '<li class="' + whoseDialog + '">' + output + text + "</li>";
