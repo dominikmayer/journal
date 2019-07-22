@@ -64,40 +64,57 @@ var meInDialogs = ["Ich", "I", "Me"];
     };
 
     function createDialog(match) {
-        var text = match.replace(/<p>{{&lt;\/? dialog &gt;}}<\/p>/g, '');
         var speakers = [];
+        var dialog = [];
 
-        text = text.replace(/(?:<p>)?\.?(\w.*?)\s?(\(.*\))?:(.*?)(?:<\/p>|<br>)/g, function(match, speaker, comment, text) {
-            var newSpeaker = false;
-            if (!speakers.includes(speaker)) {
-                newSpeaker = true;
-                speakers.push(speaker);
-            }
-            return createDialogLine(match, speaker, comment, text, speakers, newSpeaker);
+        match.replace(/(?:<p>)?\.?(\w.*?)\s?(\(.*\))?:(.*?)(?:<\/p>|<br>)/g, function(match, speaker, comment, text) {
+
+            dialog.push({speaker: speaker, comment: comment, text: text});
+
         });
-        console.log(speakers);
 
-        return '<ul class="journal-dialog">' + text  + '</ul>\n';
+        console.log(dialog);
+
+        text = dialog.map(function(line, index, dialog) {
+
+            var newSpeaker = false;
+
+            if (!speakers.includes(line.speaker)) {
+                newSpeaker = true;
+                speakers.push(line.speaker);
+            }
+
+            return createDialogLine(line, index, dialog, speakers, newSpeaker);
+        });
+        console.log(text.join('\n'));
+
+        return '<ul class="journal-dialog">' + text.join('\n')  + '</ul>\n';
     };
 
     // Rudimentary support for multiple person conversation only works well if I am speaking first
-    function createDialogLine(match, speaker, comment, text, speakers, newSpeaker) {
+    function createDialogLine(line, index, dialog, speakers, newSpeaker) {
         var output = "";
         var whoseDialog = "their-dialog";
+        var speechState = "";
 
-        let iAmSpeaking = meInDialogs.includes(speaker);
+        let iAmSpeaking = meInDialogs.includes(line.speaker);
         let iAmPartOfTheConversation = meInDialogs.some(v => speakers.includes(v));
 
-        if (iAmSpeaking || !iAmPartOfTheConversation && speaker == speakers[1]) {
+        if (iAmSpeaking || !iAmPartOfTheConversation && line.speaker == speakers[1]) {
             whoseDialog = "my-dialog";
         }
 
-        if (comment) {
-            output = "<b>" + speaker + "</b>" + " <i>" + comment + "</i><br>"
+        if (line.comment) {
+            output = "<b>" + line.speaker + "</b>" + " <i>" + line.comment + "</i><br>"
         } else if (newSpeaker || speakers.length > 2) {
-            output = "<b>" + speaker + "</b><br>"
+            output = "<b>" + line.speaker + "</b><br>"
         }
-        output = '<li class="' + whoseDialog + '">' + output + text + "</li>";
+
+        if (dialog[index+1] && dialog[index+1].speaker != line.speaker) {
+            speechState = " end-speech";
+        };
+
+        output = '<li class="' + whoseDialog + speechState + '">' + output + line.text + "</li>";
 
         return output;
     };

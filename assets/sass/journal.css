@@ -13,40 +13,75 @@ p {
 ul.journal-dialog li {
   display:inline-block;
   clear: both;
-  padding: 10px;
-  border-radius: 20px;
-  margin-bottom: 1px;
+  padding: 5px 10px;
+  /* border-radius: 15px; */
+  border-radius: 5px;
+  margin-bottom: 0px;
   /* font-family: Helvetica, Arial, sans-serif; */
 }
 
-.their-dialog {
+ul.journal-dialog li.their-dialog {
   background: #eee;
   color: #021310;
   float: left;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
-.my-dialog {
+ul.journal-dialog li.my-dialog {
   float: right;
   text-align: right;
   background: #0084ff;
   color: #fff;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 
 .their-dialog + .my-dialog {
-  /* border-bottom-right-radius: 5px; */
+  border-top-right-radius: 15px;
 }
 
-.my-dialog + .my-dialog {
-  /* border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px; */
+.my-dialog + .their-dialog, .their-dialog.end-speech + .their-dialog {
+  border-top-left-radius: 15px;
 }
 
-.their-dialog + .their-dialog {
-  /* border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px; */
+/* .their-dialog + .their-dialog {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
-.journal-dialog li:last-of-type {
-  /* border-bottom-right-radius: 5px; */
+.journal-dialog li:nth-last-child(1 of .my-dialog) {
+  border-bottom-right-radius: 5px;
+  margin-bottom: 1em;
+} */
+
+.my-dialog.end-speech {
+    border-bottom-right-radius: 15px;
+}
+
+.their-dialog.end-speech {
+    border-bottom-left-radius: 15px;
+}
+
+.journal-dialog li:nth-child(1 of .my-dialog) {
+  border-top-right-radius: 15px;
+}
+
+.journal-dialog li:nth-child(1 of .their-dialog) {
+  border-top-left-radius: 15px;
+}
+
+.journal-dialog li:nth-last-child(1 of .their-dialog) {
+  border-bottom-left-radius: 15px;
+  margin-bottom: 1em;
+}
+
+.journal-dialog li:nth-last-child(1 of .my-dialog) {
+  border-bottom-right-radius: 15px;
+  margin-bottom: 1em;
+}
+
+.journal-dialog li:nth-last-child(1 of .their-dialog) {
+  border-bottom-left-radius: 15px;
   margin-bottom: 1em;
 }
