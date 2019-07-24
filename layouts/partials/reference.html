@@ -1,0 +1,60 @@
+{{ if eq .Page.Params.type "day" }}
+
+    {{ $lastWeek := index (where .Site.Pages ".Date" "eq" (.Page.Date.AddDate 0 0 -7)) 0 }}
+    {{ $nextWeek := index (where .Site.Pages ".Date" "eq" (.Page.Date.AddDate 0 0 +7)) 0 }}
+
+    {{ $lastMonth := index (where .Site.Pages ".Date" "eq" (.Page.Date.AddDate 0 -1 0)) 0 }}
+    {{ $nextMonth := index (where .Site.Pages ".Date" "eq" (.Page.Date.AddDate 0 +1 0)) 0 }}
+
+    {{ $lastYear := index (where .Site.Pages ".Date" "eq" (.Page.Date.AddDate -1 0 0)) 0 }}
+    {{ $nextYear := index (where .Site.Pages ".Date" "eq" (.Page.Date.AddDate +1 0 0)) 0 }}
+
+    <nav class="level">
+      <div class="level-left">
+        <div class="level-item">
+            {{ with $lastWeek }}
+                <p class="level-item">Last Week:&nbsp;<a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+            {{ end }}
+        </div>
+      </div>
+
+      <div class="level-right">
+          {{ with $nextWeek }}
+              <p class="level-item">Next Week:&nbsp;<a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+          {{ end }}
+      </div>
+    </nav>
+
+    <nav class="level">
+      <div class="level-left">
+        <div class="level-item">
+            {{ with $lastMonth }}
+                <p class="level-item">Last Month:&nbsp;<a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+            {{ end }}
+        </div>
+      </div>
+
+      <div class="level-right">
+          {{ with $nextMonth }}
+              <p class="level-item">Next Month:&nbsp;<a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+          {{ end }}
+      </div>
+    </nav>
+
+    <nav class="level">
+      <div class="level-left">
+        <div class="level-item">
+            {{ with $lastYear }}
+                <p class="level-item">Last Year:&nbsp;<a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+            {{ end }}
+        </div>
+      </div>
+
+      <div class="level-right">
+          {{ with $nextYear }}
+              <p class="level-item">Next Year:&nbsp;<a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+          {{ end }}
+      </div>
+    </nav>
+
+{{ end }}

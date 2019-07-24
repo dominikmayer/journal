@@ -1,6 +1,5 @@
 {{ define "content" }}
 
-
 {{/* if not .IsHome }}
     <h1 class="title">{{ partial "datetitle.html" . }}</h1>
 {{ end */}}
@@ -10,6 +9,8 @@
 <section class="section">
     <h1 class="title" >{{ partial "datetitle.html" . }}</h1>
     <div class="container">
+
+        {{ partial "reference" . }}
 
         {{ with .Content }}
             <div class="content">
