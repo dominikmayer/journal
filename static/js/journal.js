@@ -10,7 +10,9 @@ var meInDialogs = ["Ich", "I", "Me"];
         var containers = document.getElementsByClassName("journalize");
         for (container of containers) {
             container.addEventListener('ia-writer-change', styleContent);
-            container.dispatchEvent(new Event('ia-writer-change'));
+            if (env != "iA") {
+                container.dispatchEvent(new Event('ia-writer-change'));
+            }
         }
         if (env != "iA") {
             addZoom();
@@ -73,8 +75,6 @@ var meInDialogs = ["Ich", "I", "Me"];
 
         });
 
-        console.log(dialog);
-
         text = dialog.map(function(line, index, dialog) {
 
             var newSpeaker = false;
@@ -86,7 +86,6 @@ var meInDialogs = ["Ich", "I", "Me"];
 
             return createDialogLine(line, index, dialog, speakers, newSpeaker);
         });
-        console.log(text.join('\n'));
 
         return '<ul class="journal-dialog">' + text.join('\n')  + '</ul>\n';
     };
@@ -140,7 +139,7 @@ var meInDialogs = ["Ich", "I", "Me"];
         let videoRegex = new RegExp('(?:<p>)?\/((.*)\.(' + videoExtensions + '))(?:<\/p>|<br>)', 'gi')
         text = text.replace(videoRegex, '<div><video controls title="$2"><source src="' + url + '/$1" type="video/mp4">Your browser does not support the video tag.</video></div>');
         //text = text.replace(videoRegex, '<div><img src="' + url + '/$1" class="entry-image" title="$2"></div>');
-
+        
         return text;
     };
 
