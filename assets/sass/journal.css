@@ -17,6 +17,7 @@ ul.journal-dialog li {
   /* border-radius: 15px; */
   border-radius: 5px;
   margin-bottom: 0px;
+  margin-top: 4px;
   /* font-family: Helvetica, Arial, sans-serif; */
 }
 
@@ -35,6 +36,10 @@ ul.journal-dialog li.my-dialog {
   color: #fff;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
+}
+
+.my-dialog + .my-dialog, .their-dialog + .their-dialog {
+    margin-top: 2px;
 }
 
 .their-dialog + .my-dialog {
