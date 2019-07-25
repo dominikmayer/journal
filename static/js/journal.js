@@ -139,7 +139,7 @@ var meInDialogs = ["Ich", "I", "Me"];
         text = replaceMedia(text, videoExtensions, '<div><video controls title="$2"><source src="' + url + '/$1" type="video/mp4">Your browser does not support the video tag.</video></div>');
 
         // Adding audio
-        text = replaceMedia(text, audioExtensions, '<div><audio controls><source src="' + url + '/$1">Your browser does not support the audio element.</audio></div>');
+        text = replaceMedia(text, audioExtensions, '<div class="has-text-centered""><audio controls><source src="' + url + '/$1">Your browser does not support the audio element.</audio></div>');
 
         return text;
     };
