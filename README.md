@@ -1,5 +1,19 @@
 This theme renders journal files in your Hugo content directory. It is in active development and subject to breaking changes.
 
+## Configuration
+
+You should add two parameters to your config file:
+
+```
+[params]
+  editURL = "ia-writer://open?path="
+  googleApiKey = "[YOUR GOOGLE API KEY]"
+```
+
+The [Google API Key](https://developers.google.com/maps/documentation/javascript/get-api-key) is needed for map display.
+
+The `editURL` allows you to specifiy a URL that will open an entry in your editor of choice.
+
 ## Directory structure
 
 ```
