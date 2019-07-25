@@ -1,4 +1,4 @@
-{{ if and (or (eq .Page.Params.type "day") (eq .Page.Params.type "month")) .Site.Params.googleApiKey }}
+{{ if and (or (or (eq .Page.Params.type "day") (eq .Page.Params.type "month") (eq .Page.Params.type "year"))) .Site.Params.googleApiKey }}
     <div id="map" style="height: 400px; width: 100%"></div>
     <script>
         function initMap() {
@@ -18,6 +18,17 @@
                         {{ $page := . }}
                         {{ with .Page.Params.location}}
                             [{{- .latitude -}}, {{- .longitude -}}, "{{ $page.CurrentSection.RelPermalink }}#{{- $page.File.LogicalName -}}"],
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+            {{ else if eq .Page.Params.type "year" }}
+                {{ range .Sections }}
+                    {{ range .Sections }}
+                        {{ range .Pages }}
+                            {{ $page := . }}
+                            {{ with .Page.Params.location}}
+                                [{{- .latitude -}}, {{- .longitude -}}, "{{ $page.CurrentSection.RelPermalink }}#{{- $page.File.LogicalName -}}"],
+                            {{ end }}
                         {{ end }}
                     {{ end }}
                 {{ end }}
