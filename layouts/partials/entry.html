@@ -16,17 +16,6 @@
             {{ else }}
                 {{ .Content }}
             {{ end }}
-
-            {{ if .Scratch.Get "ShownInList" }}
-                {{ $day := printf "%s" (.Parent.Date.Format "2006-01-02") }}
-                {{ range .Params.images }}
-                    <img src="{{ $day }}/{{.}}">
-                {{ end }}
-            {{ else }}
-                {{ range .Params.images }}
-                    <img src="{{.}}">
-                {{ end }}
-            {{end}}
         </div>
     </div>
 </div>
