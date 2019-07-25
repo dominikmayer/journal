@@ -1,14 +1,25 @@
-{{ if and (eq .Page.Params.type "day") .Site.Params.googleApiKey }}
+{{ if and (or (eq .Page.Params.type "day") (eq .Page.Params.type "month")) .Site.Params.googleApiKey }}
     <div id="map" style="height: 400px; width: 100%"></div>
     <script>
         function initMap() {
             var bounds = new google.maps.LatLngBounds();
             var map = new google.maps.Map(document.getElementById('map'), {zoom: 4});
             var locations = [
-            {{ range .Pages }}
-                {{ $page := . }}
-                {{ with .Page.Params.location}}
-                    [{{- .latitude -}}, {{- .longitude -}}, "#{{- $page.File.LogicalName -}}"],
+            {{ if eq .Page.Params.type "day" }}
+                {{ range .Pages }}
+                    {{ $page := . }}
+                    {{ with .Page.Params.location}}
+                        [{{- .latitude -}}, {{- .longitude -}}, "#{{- $page.File.LogicalName -}}"],
+                    {{ end }}
+                {{ end }}
+            {{ else if eq .Page.Params.type "month" }}
+                {{ range .Sections }}
+                    {{ range .Pages }}
+                        {{ $page := . }}
+                        {{ with .Page.Params.location}}
+                            [{{- .latitude -}}, {{- .longitude -}}, "{{ $page.CurrentSection.RelPermalink }}#{{- $page.File.LogicalName -}}"],
+                        {{ end }}
+                    {{ end }}
                 {{ end }}
             {{ end }}
             ];

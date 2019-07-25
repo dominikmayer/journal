@@ -45,7 +45,7 @@
 {{ end }}
 
 {{ define "bodyend" }}
-    {{ if eq .Page.Params.type "day" }}
+    {{ if or (eq .Page.Params.type "day") (eq .Page.Params.type "month") }}
         {{ with .Site.Params.googleApiKey }}
             <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ . }}&callback=initMap">
             </script>
