@@ -21,5 +21,7 @@
         {{ end }}
     </div>
     {{ partialCached "footer.html" . }}
+    {{ block "bodyend" . }}
+    {{ end }}
 </body>
 </html>

@@ -10,6 +10,7 @@
     <h1 class="title" >{{ partial "datetitle.html" . }}</h1>
     <div class="container">
 
+        {{ partial "map" . }}
         {{ partial "reference" . }}
 
         {{ with .Content }}
@@ -41,4 +42,13 @@
     </div>
 </section>
 
+{{ end }}
+
+{{ define "bodyend" }}
+    {{ if eq .Page.Params.type "day" }}
+        {{ with .Site.Params.googleApiKey }}
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ . }}&callback=initMap">
+            </script>
+        {{ end }}
+    {{ end }}
 {{ end }}

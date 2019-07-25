@@ -1,0 +1,28 @@
+{{ if and (eq .Page.Params.type "day") .Site.Params.googleApiKey }}
+    <div id="map" style="height: 400px; width: 100%"></div>
+    <script>
+        function initMap() {
+            var bounds = new google.maps.LatLngBounds();
+            var map = new google.maps.Map(document.getElementById('map'), {zoom: 4});
+            var locations = [
+            {{ range .Pages }}
+                {{ $page := . }}
+                {{ with .Page.Params.location}}
+                    [{{- .latitude -}}, {{- .longitude -}}, "#{{- $page.File.LogicalName -}}"],
+                {{ end }}
+            {{ end }}
+            ];
+
+            for (var i = 0; i < locations.length; i++) {
+                var location = locations[i];
+                var position = new google.maps.LatLng(location[0], location[1]);
+                var marker = new google.maps.Marker({position: position, url: location[2], map: map});
+                bounds.extend(marker.position);
+                google.maps.event.addListener(marker, 'click', function() {
+                    window.location.href = this.url;
+                });
+            };
+            map.fitBounds(bounds);
+        }
+    </script>
+{{ end }}
