@@ -123,6 +123,7 @@ var meInDialogs = ["Ich", "I", "Me"];
 
         let photoExtensions = 'jpeg|jpg|gif|png|heic';
         let videoExtensions = 'mov|mp4';
+        let audioExtensions = 'm4a|mp3|ogg';
 
         // Adding the figure environment in Hugo
         let figureRegex = new RegExp('(?:(?:<p>)?(?:\/.*\.(?:' + photoExtensions + '|' + videoExtensions + '))(?:<\/p>|<br>)\n?)+',"gi");
@@ -132,15 +133,21 @@ var meInDialogs = ["Ich", "I", "Me"];
         text = text.replace(/(?:<figure>.*?<\/figure>\n*)+/gis, createFigure);
 
         // Adding the images
-        let photoRegex = new RegExp('(?:<p>)?\/((.*)\.(' + photoExtensions + '))(?:<\/p>|<br>)', 'gi')
-        text = text.replace(photoRegex, '<div><img src="' + url + '/$1" class="entry-image" title="$2"></div>');
+        text = replaceMedia(text, photoExtensions, '<div><img src="' + url + '/$1" class="entry-image" title="$2"></div>');
 
         // Adding the videos
-        let videoRegex = new RegExp('(?:<p>)?\/((.*)\.(' + videoExtensions + '))(?:<\/p>|<br>)', 'gi')
-        text = text.replace(videoRegex, '<div><video controls title="$2"><source src="' + url + '/$1" type="video/mp4">Your browser does not support the video tag.</video></div>');
-        //text = text.replace(videoRegex, '<div><img src="' + url + '/$1" class="entry-image" title="$2"></div>');
-        
+        text = replaceMedia(text, videoExtensions, '<div><video controls title="$2"><source src="' + url + '/$1" type="video/mp4">Your browser does not support the video tag.</video></div>');
+
+        // Adding audio
+        text = replaceMedia(text, audioExtensions, '<div><audio controls><source src="' + url + '/$1">Your browser does not support the audio element.</audio></div>');
+
         return text;
+    };
+
+    function replaceMedia(text, extensions, replacement) {
+        let mediaRegex = new RegExp('(?:<p>)?\/((.*)\.(' + extensions + '))(?:<\/p>|<br>)', 'gi')
+
+        return text.replace(mediaRegex, replacement);
     };
 
     function createFigure(match) {
