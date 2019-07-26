@@ -1,9 +1,11 @@
 {{ with .Parent }}
-    <div class="navbar-dropdown is-boxed">
-        {{ range first 12 .Sections }}
-            <a class="navbar-item" href="{{.RelPermalink}}">
-                {{ partial "datetitle" . }}
-            </a>
-        {{ end }}
-    </div>
+    {{ if gt (len .Sections) 1 }}
+        <div class="navbar-dropdown is-boxed">
+            {{ range first 12 .Sections }}
+                <a class="navbar-item" href="{{.RelPermalink}}">
+                    {{ partial "datetitle" . }}
+                </a>
+            {{ end }}
+        </div>
+    {{ end }}
 {{ end }}
