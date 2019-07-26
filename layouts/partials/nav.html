@@ -12,12 +12,21 @@
 
     <div class="navbar-menu" id="navMenu">
         <div class="navbar-start">
-            {{ partialCached "current" . }}
+            {{/* partialCached "current" . */}}
 
-            {{ partialCached "todo" . }}
+            {{ $lastEntry := index (first 1 .Site.RegularPages.ByDate.Reverse) 0 }}
+
+            <div class="navbar-item">
+                <a href="{{ $lastEntry.Parent.RelPermalink }}" class="navbar-item">{{ T "today" }}</a>
+            </div>
+
+            {{ partial "breadcrumbs" . }}
+
+            {{/*
             <div class="navbar-item">
                 {{ partial "breadcrumbs" . }}
             </div>
+            */}}
 
             {{ $currentPage := . }}
             {{/* partial "breadcrumb.html" . */}}
@@ -39,6 +48,7 @@
         </div>
 
         <div class="navbar-end">
+            {{ partialCached "todo" . }}
             <div class="navbar-item">
                 <a href="javascript:toggleObfuscation()" class="icon has-text-grey-lighter" id="eye"><i class="fas fa-eye-slash"></i></a>
             </div>

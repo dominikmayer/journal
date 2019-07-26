@@ -21,7 +21,7 @@
                 {{ $todoCount }}
             </span>
         </a>
-        <div class="navbar-dropdown">
+        <div class="navbar-dropdown is-boxed is-right">
             {{ range ($inboxSites.GroupBy "Dir").Reverse }}
                 {{ $firstInboxEntryPerDay := index (last 1 .Pages).Reverse 0}}
                 <a class="navbar-item" href="{{$firstInboxEntryPerDay.CurrentSection.Permalink}}">

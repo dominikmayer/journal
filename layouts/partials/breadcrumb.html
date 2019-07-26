@@ -1,6 +1,11 @@
 {{ with .Parent }}
     {{ if not .IsHome }}
         {{ partial "breadcrumb.html" . }}
-        <li><a href="{{ .RelPermalink}}">{{ path.Base .CurrentSection.File.Dir }}</a></li>
+        <div class="navbar-item has-dropdown is-hoverable">
+            <a href="{{ .RelPermalink}}" class="navbar-item">
+                {{ path.Base .CurrentSection.File.Dir }}
+            </a>
+            {{ partial "entry-dropdown" . }}
+        </div>
     {{end}}
 {{ end }}
