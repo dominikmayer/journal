@@ -3,7 +3,36 @@
     <script>
         function initMap() {
             var bounds = new google.maps.LatLngBounds();
-            var map = new google.maps.Map(document.getElementById('map'), {zoom: 4});
+            var styles = [
+                              {
+                                "featureType": "poi",
+                                "elementType": "labels.icon",
+                                "stylers": [
+                                  {
+                                    "visibility": "off"
+                                  }
+                                ]
+                              },
+                              {
+                                "featureType": "road",
+                                "elementType": "labels.icon",
+                                "stylers": [
+                                  {
+                                    "visibility": "off"
+                                  }
+                                ]
+                              },
+                              {
+                                "featureType": "transit.station",
+                                "elementType": "labels.icon",
+                                "stylers": [
+                                  {
+                                    "visibility": "off"
+                                  }
+                                ]
+                              }
+                            ];
+            var map = new google.maps.Map(document.getElementById('map'), {zoom: 4, styles: styles});
             var locations = [
             {{ if eq .Page.Params.type "day" }}
                 {{ range .Pages }}
