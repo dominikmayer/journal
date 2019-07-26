@@ -181,7 +181,7 @@ var meInDialogs = ["Ich", "I", "Me"];
     };
 
     function addZoom() {
-        const zoom = mediumZoom('img', {
+        const zoom = mediumZoom('.content img', {
             background: "#000000",
         });
 
