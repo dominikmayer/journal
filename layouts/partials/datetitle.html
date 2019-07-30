@@ -1,10 +1,12 @@
+{{ $data := index .Site.Data .Site.Language.Lang }}
+
 {{ if .Date.IsZero }}
     {{ if .Title }}
         {{ .Title }}
     {{ else }}
         {{ $base := path.Base .CurrentSection.File.Dir }}
         {{ if eq (len $base) 2 }}
-            {{ index $.Site.Data.monate (printf "%d" (int ($base| strings.TrimLeft "0"))) }}
+            {{ index $data.months (printf "%d" (int ($base| strings.TrimLeft "0"))) }}
         {{ else }}
             {{ $base }}
         {{ end }}
@@ -28,18 +30,18 @@
             {{ with index $dateString 2 }}
                 {{ index $dateString 2 -}}.
             {{ end }}
-            {{ index $.Site.Data.monate (strings.TrimLeft "0" (printf "%s" (index $dateString 1))) }} {{index $dateString 0}}
+            {{ index $data.months (strings.TrimLeft "0" (printf "%s" (index $dateString 1))) }} {{index $dateString 0}}
         {{ else }}
-            {{ index $.Site.Data.wochentageShort (printf "%d" .Date.Weekday) }}, {{ .Date.Day -}}. {{ index $.Site.Data.monate (printf "%d" .Date.Month) }} {{.Date.Year -}}
+            {{ index $data.weekdaysShort (printf "%d" .Date.Weekday) }}, {{ .Date.Day -}}. {{ index $data.months (printf "%d" .Date.Month) }} {{.Date.Year -}}
         {{ end }}
 
         {{- with .Title }}:&nbsp;<span class="sensitive">{{.}}</span>{{end}}
     {{ end }}
     {{/*index $dateString 1}}
-    {{ index $dateString 2 -}}. {{ index $.Site.Data.monate (printf "%d" (index $dateString 1)) }} {{index $dateString 0}}{{ with .Title }}: {{.}}{{end*/}}
+    {{ index $dateString 2 -}}. {{ index $data.months (printf "%d" (index $dateString 1)) }} {{index $dateString 0}}{{ with .Title }}: {{.}}{{end*/}}
     {{ with $todoPages }}<span class="tag is-warning is-rounded" style="margin-left:5px">{{len .}}</span>{{end}}
 
 
-    {{/* .Date.Day -}}. {{ index $.Site.Data.monate (printf "%d" .Date.Month) }} {{.Date.Year}}{{ with .Title }}: {{.}}{{end}}
+    {{/* .Date.Day -}}. {{ index $data.months (printf "%d" .Date.Month) }} {{.Date.Year}}{{ with .Title }}: {{.}}{{end}}
     {{ with $todoPages }}<span class="tag is-warning is-rounded" style="margin-left:5px">{{len .}}</span>{{end*/}}
 {{end}}
