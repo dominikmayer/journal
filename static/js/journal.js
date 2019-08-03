@@ -29,6 +29,7 @@ var meInDialogs = ["Ich", "I", "Me"];
         text = createTodos(text);
         text = styleDialogs(text);
         text = createMedia(text, this.dataset.url);
+        text = addEmbeds(text);
         this.innerHTML = text;
 
         if (env == "iA") {
@@ -166,6 +167,12 @@ var meInDialogs = ["Ich", "I", "Me"];
     function removeComments(input) {
         var text = input.replace(/{{&lt; comment &gt;}}.*?{{&lt;\/ comment &gt;}}/gs, '');
         text = text.replace(/^<p>\/\/\/<(?:\/p|br)>.*$/gms, '');
+
+        return text;
+    };
+
+    function addEmbeds(input) {
+        var text = input.replace(/^<p>(?:<a .*?>)?http(?:s)?:\/\/www.youtube.com\/watch\?v=(.*?)(?:<\/a>)?<(?:\/p|br)>$/gm, '<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom:15px">\n<iframe src="https://www.youtube.com/embed/$1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen="" title="YouTube Video"></iframe>\n</div>\n');
 
         return text;
     };

@@ -138,6 +138,12 @@ Image and video files in the same directory can be included by stating the filen
 /2010-02-02 - 16-05-03.jpg
 ```
 
+To embed YouTube videos use the YouTube URL:
+
+```
+https://www.youtube.com/watch?v=-wuf3KI76Ds
+```
+
 ### Comments
 
 Support information that should not be rendered can be put after three slashes:
